@@ -1,0 +1,1685 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WARJAP — Warung Bang Jap</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Hiasan Latar -->
+    <div class="bg-overlay"></div>
+    <div class="dekorasi lingkaran-1"></div>
+    <div class="dekorasi lingkaran-2"></div>
+    <div class="dekorasi lingkaran-3"></div>
+    <div class="dekorasi kotak-hias"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header-card">
+            <div class="logo-wrap">
+                <span class="icon-logo">🏠</span>
+                <span class="logo-text">WARJAP</span>
+                <span class="sub-logo">Warung Bang Jap</span>
+            </div>
+            <p id="meja-info" class="meja-label-top">Silakan pilih meja Anda</p>
+            <div class="garis-hias"></div>
+        </div>
+
+        <!-- PILIH MEJA -->
+        <section class="meja-section" id="meja-section">
+            <div class="card utama-card">
+                <div class="icon-wrap">📍</div>
+                <h2>Pilih Nomor Meja</h2>
+                <p>Scan QR di meja untuk otomatis terisi</p>
+                <div class="select-wrapper">
+                    <select id="noMeja">
+                        <option value="">-- Pilih Meja --</option>
+                        <script>
+                            for(let i=1; i<=50; i++){
+                                document.write(`<option value="${i}">Meja ${i}</option>`);
+                            }
+                        </script>
+                    </select>
+                </div>
+                <button class="btn-primary" onclick="setMeja()">
+                    <span class="btn-icon">✓</span> Konfirmasi Meja
+                </button>
+            </div>
+        </section>
+
+        <!-- MENU PEMESANAN -->
+        <section class="menu-section" id="menu-section" style="display:none;">
+            <div class="judul-section">
+                <span class="garis-kiri"></span>
+                <h2>🍽️ Daftar Menu</h2>
+                <span class="garis-kanan"></span>
+            </div>
+
+            <div class="menu-card">
+                <div class="menu-icon">🍟</div>
+                <div class="menu-left">
+                    <h3>Kentang Goreng</h3>
+                    <p class="price">Rp 10.000</p>
+                </div>
+                <div class="qty-box">
+                    <button class="qty-btn minus" onclick="kurang('kentang')">−</button>
+                    <span id="qty-kentang">0</span>
+                    <button class="qty-btn plus" onclick="tambah('kentang')">+</button>
+                </div>
+            </div>
+
+            <div class="menu-card">
+                <div class="menu-icon">🥤</div>
+                <div class="menu-left">
+                    <h3>Good Day Freez</h3>
+                    <p class="price">Rp 7.000</p>
+                    <select id="varian-freez" class="varian-select">
+                        <option value="Es">🧊 Es</option>
+                        <option value="Panas">🔥 Panas</option>
+                    </select>
+                </div>
+                <div class="qty-box">
+                    <button class="qty-btn minus" onclick="kurang('freez')">−</button>
+                    <span id="qty-freez">0</span>
+                    <button class="qty-btn plus" onclick="tambah('freez')">+</button>
+                </div>
+            </div>
+
+            <div class="menu-card">
+                <div class="menu-icon">☕</div>
+                <div class="menu-left">
+                    <h3>Good Day Biru</h3>
+                    <p class="price">Rp 5.000</p>
+                    <select id="varian-biru" class="varian-select">
+                        <option value="Es">🧊 Es</option>
+                        <option value="Panas">🔥 Panas</option>
+                    </select>
+                </div>
+                <div class="qty-box">
+                    <button class="qty-btn minus" onclick="kurang('biru')">−</button>
+                    <span id="qty-biru">0</span>
+                    <button class="qty-btn plus" onclick="tambah('biru')">+</button>
+                </div>
+            </div>
+
+            <div class="menu-card">
+                <div class="menu-icon">🐟</div>
+                <div class="menu-left">
+                    <h3>Otak-Otak</h3>
+                    <p class="price">Rp 10.000</p>
+                </div>
+                <div class="qty-box">
+                    <button class="qty-btn minus" onclick="kurang('otak')">−</button>
+                    <span id="qty-otak">0</span>
+                    <button class="qty-btn plus" onclick="tambah('otak')">+</button>
+                </div>
+            </div>
+
+            <div class="menu-card">
+                <div class="menu-icon">🍜</div>
+                <div class="menu-left">
+                    <h3>Indomie</h3>
+                    <p class="price">Rp 10.000</p>
+                    <select id="varian-indomie" class="varian-select">
+                        <option value="Tidak Pedas">🍜 Tidak Pedas</option>
+                        <option value="Pedas">🌶️ Pedas</option>
+                    </select>
+                </div>
+                <div class="qty-box">
+                    <button class="qty-btn minus" onclick="kurang('indomie')">−</button>
+                    <span id="qty-indomie">0</span>
+                    <button class="qty-btn plus" onclick="tambah('indomie')">+</button>
+                </div>
+            </div>
+
+            <!-- RINGKASAN -->
+            <div class="summary-card">
+                <div class="summary-judul">
+                    <span>🛒</span>
+                    <h3>Ringkasan Pesanan</h3>
+                </div>
+                <div class="garis-pembatas"></div>
+                <div id="daftar-pesan" class="list-pesan">
+                    <p class="text-muted">Belum ada pesanan</p>
+                </div>
+                <div class="total-line">
+                    <span>TOTAL</span>
+                    <span class="total-price">Rp <span id="total-bayar">0</span></span>
+                </div>
+            </div>
+
+            <!-- PEMBAYARAN -->
+            <div class="payment-card">
+                <div class="payment-judul">
+                    <span>💳</span>
+                    <h3>Metode Pembayaran</h3>
+                </div>
+                <label class="pay-option">
+                    <input type="radio" name="bayar" value="Bayar di Kasir" checked>
+                    <span class="pay-dot"></span>
+                    <span class="pay-text">💰 Bayar di Kasir</span>
+                </label>
+                <label class="pay-option">
+                    <input type="radio" name="bayar" value="QRIS">
+                    <span class="pay-dot"></span>
+                    <span class="pay-text">📱 Scan QRIS</span>
+                </label>
+            </div>
+
+            <button class="btn-submit" onclick="kirimPesanan()">
+                <span class="kirim-icon">🚀</span> Kirim Pesanan
+            </button>
+            <p id="status-pesan" class="status-text"></p>
+        </section>
+    </div>
+
+    <script>
+        let meja = null;
+        let pesanan = { kentang:0, freez:0, biru:0, otak:0, indomie:0 };
+        const harga = { kentang:10000, freez:7000, biru:5000, otak:10000, indomie:10000 };
+        const namaMenu = { kentang:'Kentang Goreng', freez:'Good Day Freez', biru:'Good Day Biru', otak:'Otak-Otak', indomie:'Indomie' };
+
+        window.onload = function() {
+            const params = new URLSearchParams(window.location.search);
+            const mejaDariQR = params.get('meja');
+            if(mejaDariQR) {
+                meja = mejaDariQR;
+                document.getElementById('meja-info').innerHTML = '✅ Anda di <strong>Meja ' + meja + '</strong>';
+                document.getElementById('meja-section').style.display = 'none';
+                document.getElementById('menu-section').style.display = 'block';
+            }
+        };
+
+        function setMeja() {
+            const pilih = document.getElementById('noMeja');
+            if(pilih.value) {
+                meja = pilih.value;
+                document.getElementById('meja-info').innerHTML = '✅ Anda di <strong>Meja ' + meja + '</strong>';
+                document.getElementById('meja-section').style.display = 'none';
+                document.getElementById('menu-section').style.display = 'block';
+            } else alert('Silakan pilih meja dulu!');
+        }
+
+        function tambah(jenis) {
+            pesanan[jenis]++;
+            document.getElementById(`qty-${jenis}`).textContent = pesanan[jenis];
+            updateRingkasan();
+        }
+        function kurang(jenis) {
+            if(pesanan[jenis]>0) pesanan[jenis]--;
+            document.getElementById(`qty-${jenis}`).textContent = pesanan[jenis];
+            updateRingkasan();
+        }
+
+        function updateRingkasan() {
+            let html='', total=0;
+            for(let j in pesanan) {
+                if(pesanan[j]>0) {
+                    let varian='';
+                    if(j==='freez') varian = ' ('+document.getElementById('varian-freez').value+')';
+                    if(j==='biru') varian = ' ('+document.getElementById('varian-biru').value+')';
+                    if(j==='indomie') varian = ' ('+document.getElementById('varian-indomie').value+')';
+                    let sub = pesanan[j]*harga[j];
+                    total += sub;
+                    html += `<div class="item-row"><span>${namaMenu[j]}${varian} × ${pesanan[j]}</span><span>Rp ${sub.toLocaleString('id-ID')}</span></div>`;
+                }
+            }
+            document.getElementById('daftar-pesan').innerHTML = html || '<p class="text-muted">Belum ada pesanan</p>';
+            document.getElementById('total-bayar').textContent = total.toLocaleString('id-ID');
+        }
+
+        function kirimPesanan() {
+            let ada = Object.values(pesanan).some(v=>v>0);
+            if(!ada) { alert('Pilih menu dulu!'); return; }
+
+            let detail=[]; let total=0;
+            for(let j in pesanan) {
+                if(pesanan[j]>0) {
+                    let varian='';
+                    if(j==='freez') varian = ' ('+document.getElementById('varian-freez').value+')';
+                    if(j==='biru') varian = ' ('+document.getElementById('varian-biru').value+')';
+                    if(j==='indomie') varian = ' ('+document.getElementById('varian-indomie').value+')';
+                    detail.push(`${namaMenu[j]}${varian} × ${pesanan[j]}`);
+                    total += pesanan[j]*harga[j];
+                }
+            }
+            let metode = document.querySelector('input[name="bayar"]:checked').value;
+            let waktu = new Date().toLocaleString('id-ID');
+
+            let semua = JSON.parse(localStorage.getItem('pesananWarjap')||'[]');
+            semua.unshift({meja, detail:detail.join('; '), total, pembayaran:metode, waktu, status:'Baru'});
+            localStorage.setItem('pesananWarjap', JSON.stringify(semua));
+
+            document.getElementById('status-pesan').innerHTML = '<span class="sukses">✔ Pesanan berhasil dikirim! Terima kasih!</span>';
+            setTimeout(()=>location.reload(), 3500);
+        }
+    </script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="id">
+<body></body>
+<style><:root {
+    /* Palet Coklat Hangat */
+    --coklat-gelap: #5D4037;
+    --coklat: #8D6E63;
+    --coklat-muda: #D7CCC8;
+    --coklat-sangatmuda: #F5F5F0;
+    --krem: #FFF8E1;
+    --emas: #BCAAA4;
+    --coklat-tombol: #6D4C41;
+    --coklat-hover: #4E342E;
+    --hijau: #66BB6A;
+    --merah: #A1887F;
+    --bayangan: 0 8px 30px rgba(93, 64, 55, 0.15);
+    --radius: 20px;
+    --radius-kecil: 12px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #8D6E63, #6D4C41);
+    min-height: 100vh;
+    padding: 20px 15px;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* === HIASAN LATAR === */
+.bg-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-image: 
+        radial-gradient(circle at 20% 30%, rgba(255,248,225,0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(255,248,225,0.06) 0%, transparent 45%);
+    z-index: -1;
+}
+
+.dekorasi {
+    position: fixed;
+    border-radius: 50%;
+    background: rgba(255, 248, 225, 0.05);
+    z-index: -1;
+}
+
+.lingkaran-1 {
+    width: 200px; height: 200px;
+    top: -60px; right: -40px;
+}
+
+.lingkaran-2 {
+    width: 150px; height: 150px;
+    bottom: 100px; left: -50px;
+}
+
+.lingkaran-3 {
+    width: 100px; height: 100px;
+    top: 40%; right: 5%;
+    background: rgba(189, 155, 136, 0.08);
+}
+
+.kotak-hias {
+    position: fixed;
+    width: 300px; height: 300px;
+    border: 2px solid rgba(255, 248, 225, 0.03);
+    border-radius: 30px;
+    top: 20%; left: -100px;
+    transform: rotate(15deg);
+}
+
+.container {
+    max-width: 520px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+/* === HEADER === */
+.header-card {
+    background: linear-gradient(145deg, #5D4037, #4E342E);
+    color: var(--krem);
+    padding: 30px 25px;
+    border-radius: var(--radius);
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(78, 52, 46, 0.4);
+    margin-bottom: 25px;
+    border: 2px solid rgba(255, 248, 225, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.header-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #BCAAA4, #D7CCC8, #BCAAA4);
+}
+
+.icon-logo {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.logo-text {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    display: block;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
+
+.sub-logo {
+    font-size: 0.95rem;
+    opacity: 0.8;
+    font-style: italic;
+}
+
+.meja-label-top {
+    margin-top: 15px;
+    font-size: 1rem;
+    opacity: 0.95;
+}
+
+.garis-hias {
+    height: 2px;
+    width: 80px;
+    background: linear-gradient(90deg, transparent, #BCAAA4, transparent);
+    margin: 12px auto 0;
+}
+
+/* === CARD UMUM === */
+.card {
+    background: var(--krem);
+    padding: 35px 25px;
+    border-radius: var(--radius);
+    box-shadow: var(--bayangan);
+    text-align: center;
+    border: 3px solid var(--coklat-muda);
+    position: relative;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 8px; left: 8px; right: 8px; bottom: 8px;
+    border: 1px dashed var(--emas);
+    border-radius: calc(var(--radius) - 4px);
+    pointer-events: none;
+}
+
+.utama-card {
+    background: linear-gradient(145deg, #FFFFFF, var(--coklat-sangatmuda));
+}
+
+.icon-wrap {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    filter: drop-shadow(2px 2px 2px rgba(93, 64, 55, 0.2));
+}
+
+.card h2 {
+    font-size: 1.4rem;
+    color: var(--coklat-gelap);
+    margin-bottom: 8px;
+}
+
+.card p {
+    color: var(--coklat);
+    font-size: 0.9rem;
+    margin-bottom: 25px;
+}
+
+.select-wrapper {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.select-wrapper select {
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 1rem;
+    border: 2px solid var(--coklat-muda);
+    border-radius: var(--radius-kecil);
+    background: white;
+    appearance: none;
+    cursor: pointer;
+    transition: 0.3s;
+    color: var(--coklat-gelap);
+}
+
+.select-wrapper select:focus {
+    outline: none;
+    border-color: var(--coklat);
+    box-shadow: 0 0 0 4px rgba(141, 110, 99, 0.15);
+}
+
+/* === TOMBOL === */
+button {
+    cursor: pointer;
+    font-weight: 600;
+    border: none;
+    border-radius: var(--radius-kecil);
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--coklat-tombol), var(--coklat-gelap));
+    color: var(--krem);
+    padding: 14px 35px;
+    font-size: 1rem;
+    box-shadow: 0 6px 20px rgba(109, 76, 65, 0.35);
+    border: 2px solid rgba(255, 248, 225, 0.2);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--coklat-hover), #3E2723);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(78, 52, 46, 0.4);
+}
+
+.btn-icon {
+    margin-right: 8px;
+}
+
+.btn-submit {
+    width: 100%;
+    background: linear-gradient(135deg, #795548, #5D4037);
+    color: var(--krem);
+    padding: 16px;
+    font-size: 1.1rem;
+    border-radius: var(--radius);
+    margin-top: 10px;
+    box-shadow: 0 6px 20px rgba(93, 64, 55, 0.35);
+    border: 2px solid rgba(255, 248, 225, 0.15);
+}
+
+.btn-submit:hover {
+    background: linear-gradient(135deg, #6D4C41, #4E342E);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(78, 52, 46, 0.4);
+}
+
+.kirim-icon {
+    margin-right: 8px;
+}
+
+/* === JUDUL SECTION === */
+.judul-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.garis-kiri, .garis-kanan {
+    flex: 1;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--coklat-muda), transparent);
+}
+
+.judul-section h2 {
+    color: var(--krem);
+    font-size: 1.4rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* === MENU CARD === */
+.menu-card {
+    background: var(--krem);
+    padding: 18px 20px;
+    border-radius: var(--radius);
+    box-shadow: 0 6px 20px rgba(93, 64, 55, 0.12);
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border-left: 5px solid var(--coklat);
+    transition: all 0.3s ease;
+}
+
+.menu-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(93, 64, 55, 0.18);
+    border-left-color: var(--coklat-gelap);
+}
+
+.menu-icon {
+    font-size: 1.8rem;
+    filter: drop-shadow(1px 1px 2px rgba(93, 64, 55, 0.2));
+}
+
+.menu-left { flex: 1; }
+
+.menu-left h3 {
+    font-size: 1.05rem;
+    color: var(--coklat-gelap);
+    margin-bottom: 4px;
+}
+
+.price {
+    color: var(--coklat-tombol);
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.varian-select {
+    padding: 5px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--coklat-muda);
+    font-size: 0.85rem;
+    margin-top: 8px;
+    background: white;
+    color: var(--coklat-gelap);
+}
+
+.qty-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: white;
+    padding: 5px 10px;
+    border-radius: 30px;
+    box-shadow: inset 0 0 0 1px var(--coklat-muda);
+}
+
+.qty-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.qty-btn.minus {
+    background: var(--coklat-muda);
+    color: var(--coklat-gelap);
+}
+
+.qty-btn.plus {
+    background: var(--coklat-tombol);
+    color: var(--krem);
+}
+
+.qty-box span {
+    min-width: 30px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--coklat-gelap);
+}
+
+/* === RINGKASAN === */
+.summary-card {
+    background: linear-gradient(145deg, #FFFFFF, var(--coklat-sangatmuda));
+    border-radius: var(--radius);
+    padding: 25px;
+    margin: 25px 0;
+    border: 3px solid var(--coklat-muda);
+    box-shadow: var(--bayangan);
+}
+
+.summary-judul {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.summary-judul h3 {
+    font-size: 1.1rem;
+    color: var(--coklat-gelap);
+}
+
+.garis-pembatas {
+    height: 2px;
+    background: repeating-linear-gradient(90deg, var(--coklat-muda), var(--coklat-muda) 8px, transparent 8px, transparent 12px);
+    margin-bottom: 15px;
+}
+
+.text-muted {
+    color: var(--coklat);
+    font-style: italic;
+    text-align: center;
+    padding: 10px;
+}
+
+.item-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 0.95rem;
+    color: var(--coklat-gelap);
+    border-bottom: 1px dashed var(--coklat-muda);
+}
+
+.total-line {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 3px double var(--coklat-muda);
+    font-weight: 700;
+    font-size: 1.15rem;
+}
+
+.total-price {
+    color: var(--coklat-tombol);
+    font-size: 1.2rem;
+}
+
+/* === PEMBAYARAN === */
+.payment-card {
+    background: var(--krem);
+    border-radius: var(--radius);
+    padding: 25px;
+    box-shadow: var(--bayangan);
+    margin-bottom: 20px;
+    border: 3px solid var(--coklat-muda);
+}
+
+.payment-judul {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.payment-judul h3 {
+    font-size: 1.1rem;
+    color: var(--coklat-gelap);
+}
+
+.pay-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px;
+    border: 2px solid var(--coklat-muda);
+    border-radius: var(--radius-kecil);
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.pay-option:hover {
+    border-color: var(--coklat);
+    background: rgba(141, 110, 99, 0.08);
+    transform: translateX(5px);
+}
+
+.pay-option input { display: none; }
+
+.pay-dot {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 3px solid var(--coklat-muda);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.pay-option input:checked + .pay-dot {
+    border-color: var(--coklat-tombol);
+    background: var(--coklat-tombol);
+    box-shadow: inset 0 0 0 4px var(--krem);
+}
+
+.pay-text {
+    color: var(--coklat-gelap);
+    font-weight: 500;
+}
+
+.status-text {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 1rem;
+}
+
+.sukses {
+    color: #4CAF50;
+    font-weight: 600;
+    background: rgba(76, 175, 80, 0.1);
+    padding: 8px 15px;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+/* === HALAMAN ADMIN === */
+.admin-wrap { max-width: 540px; }
+
+.admin-header {
+    background: linear-gradient(145deg, #4E342E, #3E2723);
+    color: var(--krem);
+    padding: 30px 25px;
+    border-radius: var(--radius);
+    text-align: center;
+    margin-bottom: 25px;
+    box-shadow: 0 10px 40px rgba(62, 39, 35, 0.4);
+    border: 2px solid rgba(255, 248, 225, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.admin-header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #8D6E63, #BCAAA4, #8D6E63);
+}
+
+.admin-icon {
+    font-size: 2rem;
+    margin-bottom: 8px;
+}
+
+.admin-header h1 {
+    font-size: 1.4rem;
+    margin-bottom: 5px;
+    letter-spacing: 2px;
+}
+
+.admin-header p {
+    font-size: 0.85rem;
+    opacity: 0.7;
+    margin-bottom: 15px;
+}
+
+.admin-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.btn-refresh {
+    background: linear-gradient(135deg, #6D4C41, #5D4037);
+    color: var(--krem);
+    padding: 10px 18px;
+    font-size: 0.9rem;
+}
+
+.btn-refresh:hover {
+    background: var(--coklat-hover);
+}
+
+.btn-clear {
+    background: linear-gradient(135deg, #8D6E63, #795548);
+    color: var(--krem);
+    padding: 10px 18px;
+    font-size: 0.9rem;
+}
+
+.btn-clear:hover {
+    background: var(--coklat-gelap);
+}
+
+.empty-state {
+    background: var(--krem);
+    padding: 60px 30px;
+    border-radius: var(--radius);
+    text-align: center;
+    box-shadow: var(--bayangan);
+    border: 3px solid var(--coklat-muda);
+}
+
+.empty-icon {
+    font-size: 3.5rem;
+    margin-bottom: 15px;
+    opacity: 0.6;
+}
+
+.empty-state h3 {
+    color: var(--coklat-gelap);
+    margin-bottom: 8px;
+}
+
+.empty-state p {
+    color: var(--coklat);
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+}
+
+.empty-dekor {
+    height: 3px;
+    width: 60px;
+    background: var(--coklat-muda);
+    margin: 0 auto;
+    border-radius: 3px;
+}
+
+.order-card {
+    background: var(--krem);
+    border-radius: var(--radius);
+    box-shadow: var(--bayangan);
+    margin-bottom: 18px;
+    overflow: hidden;
+    border: 3px solid var(--coklat-muda);
+    transition: all 0.3s ease;
+}
+
+.order-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(93, 64, 55, 0.15);
+}
+
+.order-top {
+    background: linear-gradient(90deg, var(--coklat-muda), #EFEBE9);
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--coklat);
+}
+
+.nomor-meja {
+    background: var(--coklat-tombol);
+    color: var(--krem);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.jam {
+    font-size: 0.8rem;
+    color: var(--coklat-gelap);
+    font-weight: 500;
+}
+
+.order-body {
+    padding: 20px;
+}
+
+.detail-pesanan {
+    background: white;
+    padding: 15px;
+    border-radius: var(--radius-kecil);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    border-left: 4px solid var(--coklat);
+    color: var(--coklat-gelap);
+}
+
+.order-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.total-rupiah {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--coklat-tombol);
+}
+
+.cara-bayar {
+    font-size: 0.85rem;
+    color: var(--coklat);
+    margin-top: 4px;
+}
+
+.aksi {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.status-label {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.status-new {
+    background: #C8E6C9;
+    color: #2E7D32;
+}
+
+.status-done {
+    background: var(--coklat-muda);
+    color: var(--coklat-gelap);
+}
+
+.btn-done {
+    background: var(--hijau);
+    color: white;
+    padding: 6px 14px;
+    font-size: 0.85rem;
+}
+
+.btn-done:hover {
+    background: #43A047;
+}
+>
+:root {
+    /* Palet Coklat Hangat */
+    --coklat-gelap: #5D4037;
+    --coklat: #8D6E63;
+    --coklat-muda: #D7CCC8;
+    --coklat-sangatmuda: #F5F5F0;
+    --krem: #FFF8E1;
+    --emas: #BCAAA4;
+    --coklat-tombol: #6D4C41;
+    --coklat-hover: #4E342E;
+    --hijau: #66BB6A;
+    --merah: #A1887F;
+    --bayangan: 0 8px 30px rgba(93, 64, 55, 0.15);
+    --radius: 20px;
+    --radius-kecil: 12px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #8D6E63, #6D4C41);
+    min-height: 100vh;
+    padding: 20px 15px;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* === HIASAN LATAR === */
+.bg-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-image: 
+        radial-gradient(circle at 20% 30%, rgba(255,248,225,0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(255,248,225,0.06) 0%, transparent 45%);
+    z-index: -1;
+}
+
+.dekorasi {
+    position: fixed;
+    border-radius: 50%;
+    background: rgba(255, 248, 225, 0.05);
+    z-index: -1;
+}
+
+.lingkaran-1 {
+    width: 200px; height: 200px;
+    top: -60px; right: -40px;
+}
+
+.lingkaran-2 {
+    width: 150px; height: 150px;
+    bottom: 100px; left: -50px;
+}
+
+.lingkaran-3 {
+    width: 100px; height: 100px;
+    top: 40%; right: 5%;
+    background: rgba(189, 155, 136, 0.08);
+}
+
+.kotak-hias {
+    position: fixed;
+    width: 300px; height: 300px;
+    border: 2px solid rgba(255, 248, 225, 0.03);
+    border-radius: 30px;
+    top: 20%; left: -100px;
+    transform: rotate(15deg);
+}
+
+.container {
+    max-width: 520px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+/* === HEADER === */
+.header-card {
+    background: linear-gradient(145deg, #5D4037, #4E342E);
+    color: var(--krem);
+    padding: 30px 25px;
+    border-radius: var(--radius);
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(78, 52, 46, 0.4);
+    margin-bottom: 25px;
+    border: 2px solid rgba(255, 248, 225, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.header-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #BCAAA4, #D7CCC8, #BCAAA4);
+}
+
+.icon-logo {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.logo-text {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    display: block;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
+
+.sub-logo {
+    font-size: 0.95rem;
+    opacity: 0.8;
+    font-style: italic;
+}
+
+.meja-label-top {
+    margin-top: 15px;
+    font-size: 1rem;
+    opacity: 0.95;
+}
+
+.garis-hias {
+    height: 2px;
+    width: 80px;
+    background: linear-gradient(90deg, transparent, #BCAAA4, transparent);
+    margin: 12px auto 0;
+}
+
+/* === CARD UMUM === */
+.card {
+    background: var(--krem);
+    padding: 35px 25px;
+    border-radius: var(--radius);
+    box-shadow: var(--bayangan);
+    text-align: center;
+    border: 3px solid var(--coklat-muda);
+    position: relative;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 8px; left: 8px; right: 8px; bottom: 8px;
+    border: 1px dashed var(--emas);
+    border-radius: calc(var(--radius) - 4px);
+    pointer-events: none;
+}
+
+.utama-card {
+    background: linear-gradient(145deg, #FFFFFF, var(--coklat-sangatmuda));
+}
+
+.icon-wrap {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    filter: drop-shadow(2px 2px 2px rgba(93, 64, 55, 0.2));
+}
+
+.card h2 {
+    font-size: 1.4rem;
+    color: var(--coklat-gelap);
+    margin-bottom: 8px;
+}
+
+.card p {
+    color: var(--coklat);
+    font-size: 0.9rem;
+    margin-bottom: 25px;
+}
+
+.select-wrapper {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.select-wrapper select {
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 1rem;
+    border: 2px solid var(--coklat-muda);
+    border-radius: var(--radius-kecil);
+    background: white;
+    appearance: none;
+    cursor: pointer;
+    transition: 0.3s;
+    color: var(--coklat-gelap);
+}
+
+.select-wrapper select:focus {
+    outline: none;
+    border-color: var(--coklat);
+    box-shadow: 0 0 0 4px rgba(141, 110, 99, 0.15);
+}
+
+/* === TOMBOL === */
+button {
+    cursor: pointer;
+    font-weight: 600;
+    border: none;
+    border-radius: var(--radius-kecil);
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--coklat-tombol), var(--coklat-gelap));
+    color: var(--krem);
+    padding: 14px 35px;
+    font-size: 1rem;
+    box-shadow: 0 6px 20px rgba(109, 76, 65, 0.35);
+    border: 2px solid rgba(255, 248, 225, 0.2);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--coklat-hover), #3E2723);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(78, 52, 46, 0.4);
+}
+
+.btn-icon {
+    margin-right: 8px;
+}
+
+.btn-submit {
+    width: 100%;
+    background: linear-gradient(135deg, #795548, #5D4037);
+    color: var(--krem);
+    padding: 16px;
+    font-size: 1.1rem;
+    border-radius: var(--radius);
+    margin-top: 10px;
+    box-shadow: 0 6px 20px rgba(93, 64, 55, 0.35);
+    border: 2px solid rgba(255, 248, 225, 0.15);
+}
+
+.btn-submit:hover {
+    background: linear-gradient(135deg, #6D4C41, #4E342E);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(78, 52, 46, 0.4);
+}
+
+.kirim-icon {
+    margin-right: 8px;
+}
+
+/* === JUDUL SECTION === */
+.judul-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.garis-kiri, .garis-kanan {
+    flex: 1;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--coklat-muda), transparent);
+}
+
+.judul-section h2 {
+    color: var(--krem);
+    font-size: 1.4rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* === MENU CARD === */
+.menu-card {
+    background: var(--krem);
+    padding: 18px 20px;
+    border-radius: var(--radius);
+    box-shadow: 0 6px 20px rgba(93, 64, 55, 0.12);
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border-left: 5px solid var(--coklat);
+    transition: all 0.3s ease;
+}
+
+.menu-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(93, 64, 55, 0.18);
+    border-left-color: var(--coklat-gelap);
+}
+
+.menu-icon {
+    font-size: 1.8rem;
+    filter: drop-shadow(1px 1px 2px rgba(93, 64, 55, 0.2));
+}
+
+.menu-left { flex: 1; }
+
+.menu-left h3 {
+    font-size: 1.05rem;
+    color: var(--coklat-gelap);
+    margin-bottom: 4px;
+}
+
+.price {
+    color: var(--coklat-tombol);
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.varian-select {
+    padding: 5px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--coklat-muda);
+    font-size: 0.85rem;
+    margin-top: 8px;
+    background: white;
+    color: var(--coklat-gelap);
+}
+
+.qty-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: white;
+    padding: 5px 10px;
+    border-radius: 30px;
+    box-shadow: inset 0 0 0 1px var(--coklat-muda);
+}
+
+.qty-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.qty-btn.minus {
+    background: var(--coklat-muda);
+    color: var(--coklat-gelap);
+}
+
+.qty-btn.plus {
+    background: var(--coklat-tombol);
+    color: var(--krem);
+}
+
+.qty-box span {
+    min-width: 30px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--coklat-gelap);
+}
+
+/* === RINGKASAN === */
+.summary-card {
+    background: linear-gradient(145deg, #FFFFFF, var(--coklat-sangatmuda));
+    border-radius: var(--radius);
+    padding: 25px;
+    margin: 25px 0;
+    border: 3px solid var(--coklat-muda);
+    box-shadow: var(--bayangan);
+}
+
+.summary-judul {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.summary-judul h3 {
+    font-size: 1.1rem;
+    color: var(--coklat-gelap);
+}
+
+.garis-pembatas {
+    height: 2px;
+    background: repeating-linear-gradient(90deg, var(--coklat-muda), var(--coklat-muda) 8px, transparent 8px, transparent 12px);
+    margin-bottom: 15px;
+}
+
+.text-muted {
+    color: var(--coklat);
+    font-style: italic;
+    text-align: center;
+    padding: 10px;
+}
+
+.item-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 0.95rem;
+    color: var(--coklat-gelap);
+    border-bottom: 1px dashed var(--coklat-muda);
+}
+
+.total-line {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 3px double var(--coklat-muda);
+    font-weight: 700;
+    font-size: 1.15rem;
+}
+
+.total-price {
+    color: var(--coklat-tombol);
+    font-size: 1.2rem;
+}
+
+/* === PEMBAYARAN === */
+.payment-card {
+    background: var(--krem);
+    border-radius: var(--radius);
+    padding: 25px;
+    box-shadow: var(--bayangan);
+    margin-bottom: 20px;
+    border: 3px solid var(--coklat-muda);
+}
+
+.payment-judul {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.payment-judul h3 {
+    font-size: 1.1rem;
+    color: var(--coklat-gelap);
+}
+
+.pay-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px;
+    border: 2px solid var(--coklat-muda);
+    border-radius: var(--radius-kecil);
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.pay-option:hover {
+    border-color: var(--coklat);
+    background: rgba(141, 110, 99, 0.08);
+    transform: translateX(5px);
+}
+
+.pay-option input { display: none; }
+
+.pay-dot {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 3px solid var(--coklat-muda);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.pay-option input:checked + .pay-dot {
+    border-color: var(--coklat-tombol);
+    background: var(--coklat-tombol);
+    box-shadow: inset 0 0 0 4px var(--krem);
+}
+
+.pay-text {
+    color: var(--coklat-gelap);
+    font-weight: 500;
+}
+
+.status-text {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 1rem;
+}
+
+.sukses {
+    color: #4CAF50;
+    font-weight: 600;
+    background: rgba(76, 175, 80, 0.1);
+    padding: 8px 15px;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+/* === HALAMAN ADMIN === */
+.admin-wrap { max-width: 540px; }
+
+.admin-header {
+    background: linear-gradient(145deg, #4E342E, #3E2723);
+    color: var(--krem);
+    padding: 30px 25px;
+    border-radius: var(--radius);
+    text-align: center;
+    margin-bottom: 25px;
+    box-shadow: 0 10px 40px rgba(62, 39, 35, 0.4);
+    border: 2px solid rgba(255, 248, 225, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.admin-header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #8D6E63, #BCAAA4, #8D6E63);
+}
+
+.admin-icon {
+    font-size: 2rem;
+    margin-bottom: 8px;
+}
+
+.admin-header h1 {
+    font-size: 1.4rem;
+    margin-bottom: 5px;
+    letter-spacing: 2px;
+}
+
+.admin-header p {
+    font-size: 0.85rem;
+    opacity: 0.7;
+    margin-bottom: 15px;
+}
+
+.admin-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.btn-refresh {
+    background: linear-gradient(135deg, #6D4C41, #5D4037);
+    color: var(--krem);
+    padding: 10px 18px;
+    font-size: 0.9rem;
+}
+
+.btn-refresh:hover {
+    background: var(--coklat-hover);
+}
+
+.btn-clear {
+    background: linear-gradient(135deg, #8D6E63, #795548);
+    color: var(--krem);
+    padding: 10px 18px;
+    font-size: 0.9rem;
+}
+
+.btn-clear:hover {
+    background: var(--coklat-gelap);
+}
+
+.empty-state {
+    background: var(--krem);
+    padding: 60px 30px;
+    border-radius: var(--radius);
+    text-align: center;
+    box-shadow: var(--bayangan);
+    border: 3px solid var(--coklat-muda);
+}
+
+.empty-icon {
+    font-size: 3.5rem;
+    margin-bottom: 15px;
+    opacity: 0.6;
+}
+
+.empty-state h3 {
+    color: var(--coklat-gelap);
+    margin-bottom: 8px;
+}
+
+.empty-state p {
+    color: var(--coklat);
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+}
+
+.empty-dekor {
+    height: 3px;
+    width: 60px;
+    background: var(--coklat-muda);
+    margin: 0 auto;
+    border-radius: 3px;
+}
+
+.order-card {
+    background: var(--krem);
+    border-radius: var(--radius);
+    box-shadow: var(--bayangan);
+    margin-bottom: 18px;
+    overflow: hidden;
+    border: 3px solid var(--coklat-muda);
+    transition: all 0.3s ease;
+}
+
+.order-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(93, 64, 55, 0.15);
+}
+
+.order-top {
+    background: linear-gradient(90deg, var(--coklat-muda), #EFEBE9);
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--coklat);
+}
+
+.nomor-meja {
+    background: var(--coklat-tombol);
+    color: var(--krem);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.jam {
+    font-size: 0.8rem;
+    color: var(--coklat-gelap);
+    font-weight: 500;
+}
+
+.order-body {
+    padding: 20px;
+}
+
+.detail-pesanan {
+    background: white;
+    padding: 15px;
+    border-radius: var(--radius-kecil);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    border-left: 4px solid var(--coklat);
+    color: var(--coklat-gelap);
+}
+
+.order-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.total-rupiah {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--coklat-tombol);
+}
+
+.cara-bayar {
+    font-size: 0.85rem;
+    color: var(--coklat);
+    margin-top: 4px;
+}
+
+.aksi {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.status-label {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.status-new {
+    background: #C8E6C9;
+    color: #2E7D32;
+}
+
+.status-done {
+    background: var(--coklat-muda);
+    color: var(--coklat-gelap);
+}
+
+.btn-done {
+    background: var(--hijau);
+    color: white;
+    padding: 6px 14px;
+    font-size: 0.85rem;
+}
+
+.btn-done:hover {
+    background: #43A047;
+}
